@@ -4,14 +4,17 @@
 #         self.val = x
 #         self.left = None
 #         self.right = None
+
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        if p.val < root.val and q.val < root.val:
-            return self.lowestCommonAncestor(root.left, p, q)
-        elif p.val > root.val and q.val > root.val:
-            return self.lowestCommonAncestor(root.right, p, q)
-        elif (p.val <= root.val and q.val > root.val) or \
-             (p.val >= root.val and q.val < root.val) or \
-             (p.val < root.val and q.val >= root.val) or \
-             (p.val > root.val and q.val <= root.val):
-            return root
+        curr = root
+        while curr:
+            if p.val < curr.val and q.val < curr.val:
+                # p, q, and LCA are in the left subtree
+                curr = curr.left
+            elif p.val > curr.val and q.val > curr.val:
+                # p, q, and LCA are in the right subtree
+                curr = curr.right
+            else:
+                # subtree containing both p and q has curr as root
+                return curr
